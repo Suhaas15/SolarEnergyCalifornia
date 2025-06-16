@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infrastructure & Grid Analysis | Solar Footprints California</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/topojson.v3.min.js"></script>
+    <script src="https://unpkg.com/d3-geo-projection@4"></script>
+    <style>
+        .map-container {
+            position: relative;
+            background: #f8f9fa;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            min-height: 600px;
+        }
+        
+        .map-container #map {
+            background: #ffffff;
+        }
+        
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        /* Ensure map SVG is visible */
+        #map svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .county {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .county:hover {
+            stroke-width: 2px !important;
+            stroke: #1d4ed8 !important;
+        }
+        .map-overlay {
+            display: none;
+        }
+        .legend-gradient {
+            width: 200px;
+            height: 20px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .grid-badge {
+            background: var(--gradient-sunset);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-sun me-2"></i>Solar Analytics
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="land-use.html">Land Use</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="infra-map.html">Infrastructure</a></li>
+                    <li class="nav-item"><a class="nav-link" href="urban-chord.html">Urban Flow</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tooltip container -->
+    <div id="tooltip" style="position: absolute; display: none; background: white; border: 1px solid #ddd; border-radius: 4px; padding: 10px; pointer-events: none; z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"></div>
+
+    <div class="container-fluid main-container">
+        <!-- Compact Header -->
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="p-4 rounded">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h1 class="display-5 fw-bold mb-2">
+                                <span class="text-gradient">Infrastructure & Grid Analysis</span>
+                            </h1>
+                            <p class="lead text-muted mb-0">
+                                Explore California's solar infrastructure landscape with advanced grid connectivity analysis.
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <div class="grid-badge">
+                                <i class="fas fa-bolt"></i> Grid Intelligence
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <!-- Map and Controls Section -->
+            <div class="col-xl-3 col-lg-4 col-md-12">
+                <div class="control-card sticky-top" style="top: 90px;">
+                    <h6 class="control-title mb-2">
+                        <i class="bi bi-sliders"></i> Customize Your View
+                    </h6>
+                    
+                    <!-- Data Filters -->
+                    <div class="card shadow-sm border-0 mb-3">
+                        <div class="card-header bg-gradient text-white py-2">
+                            <h6 class="mb-0">
+                                <i class="bi bi-funnel text-warning"></i> Filter Solar Installations
+                            </h6>
+                        </div>
+                        <div class="card-body p-3">
+                            <!-- Size and Distance Filters -->
+                            <div class="mb-3">
+                                <label for="sizeFilter" class="form-label fw-semibold mb-1">
+                                    <i class="bi bi-arrows-expand text-warning"></i> Installation Size
+                                    </label>
+                                <select id="sizeFilter" class="form-select form-select-sm">
+                                    <option value="" selected>All Installation Sizes</option>
+                                    <option value="0-5">Small (0-5 acres)</option>
+                                    <option value="5-10">Medium (5-10 acres)</option>
+                                    <option value="10-15">Large (10-15 acres)</option>
+                                    <option value="15-25">Very Large (15-25 acres)</option>
+                                    <option value="25+">Mega Projects (25+ acres)</option>
+                                    </select>
+                                </div>
+
+                            <div class="mb-3">
+                                <label for="distanceFilter" class="form-label fw-semibold mb-1">
+                                    <i class="bi bi-lightning text-info"></i> Distance to Grid
+                                    </label>
+                                <select id="distanceFilter" class="form-select form-select-sm">
+                                    <option value="" selected>All Grid Distances</option>
+                                    <option value="0-5">Very Close (0-5 miles)</option>
+                                    <option value="5-10">Close (5-10 miles)</option>
+                                    <option value="10-15">Moderate (10-15 miles)</option>
+                                    <option value="15-25">Far (15-25 miles)</option>
+                                    <option value="25+">Very Far (25+ miles)</option>
+                                    </select>
+                            </div>
+
+                                <!-- Installation Type Filter -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold mb-2">
+                                    <i class="bi bi-solar-panel text-primary"></i> Solar Panel Location Type
+                                    </label>
+                                <div class="d-flex flex-wrap gap-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="installType" id="showRooftop" value="Rooftop" checked>
+                                        <label class="form-check-label" for="showRooftop">🏠 Rooftop Solar</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="installType" id="showGround" value="Ground">
+                                        <label class="form-check-label" for="showGround">🌾 Ground-Mount Solar</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="installType" id="showParking" value="Parking">
+                                        <label class="form-check-label" for="showParking">🅿️ Parking Lot Solar</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Location Type Filter -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold mb-2">
+                                    <i class="bi bi-geo-alt text-success"></i> Area Development Type
+                                    </label>
+                                <div class="d-flex flex-wrap gap-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="locationType" id="showUrban" value="Urban" checked>
+                                        <label class="form-check-label" for="showUrban">🏙️ Urban Areas</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="locationType" id="showRural" value="Rural">
+                                        <label class="form-check-label" for="showRural">🌲 Rural Areas</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map Section -->
+            <div class="col-xl-9 col-lg-8 col-md-12">
+                <!-- Key Performance Metrics -->
+                <div class="row g-2 mb-3">
+                    <div class="col-md-4">
+                        <div class="card border-0 bg-primary text-white">
+                            <div class="card-body py-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-solar-panel fs-4 me-2"></i>
+                                    <div>
+                                        <div class="small">Solar Installations Found</div>
+                                        <div class="fw-bold" id="totalInstallations">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 bg-success text-white">
+                            <div class="card-body py-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-geo-alt fs-4 me-2"></i>
+                                    <div>
+                                        <div class="small">Total Land Coverage</div>
+                                        <div class="fw-bold" id="totalAcres">- acres</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 bg-info text-white">
+                            <div class="card-body py-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-lightning fs-4 me-2"></i>
+                                    <div>
+                                        <div class="small">Avg Distance to Power Grid</div>
+                                        <div class="fw-bold" id="avgDistance">- miles</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="map-container">
+                    <div id="loading" class="loading-overlay">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <div id="map" style="width: 100%; height: 600px;"></div>
+                    <div class="map-overlay">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-info-circle"></i>
+                            <span>Hover over counties for details</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Analysis Charts -->
+        <div class="row mt-2">
+            <div class="col-12">
+                <div class="analysis-card">
+                    <h6 class="analysis-title mb-2">
+                        <i class="bi bi-bar-chart-fill"></i> Solar Infrastructure Analysis
+                    </h6>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="chart-container">
+                                <h6 class="mb-2">🔥 Installation Density - Size vs Grid Distance</h6>
+                                <div id="capacityChart" style="height: 320px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating AI Chatbot -->
+    <div class="chatbot-container minimized" id="chatbot">
+        <div class="chatbot-header">
+            <div class="chatbot-title">
+                <i class="bi bi-robot"></i>
+                <span>AI Assistant</span>
+            </div>
+            <div class="chatbot-actions">
+                <button class="btn btn-link p-0 minimize-chat" title="Minimize">
+                    <i class="bi bi-dash-lg"></i>
+                </button>
+                <button class="btn btn-link p-0 ms-2 close-chat" title="Close">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+        </div>
+        <div class="chatbot-body">
+            <div class="chat-messages" id="chatMessages">
+                <div class="message system">
+                    <div class="message-content">
+                        Hello! I'm your AI assistant for infrastructure analysis. I can help you understand grid connectivity patterns, infrastructure efficiency, and spatial relationships in the solar installation data. Ask me about the maps and regional patterns!
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <textarea 
+                    id="chatInput" 
+                    placeholder="Ask about infrastructure, grid connectivity, regional patterns..."
+                    rows="1"
+                ></textarea>
+                <button class="btn btn-send" id="sendMessage">
+                    <i class="bi bi-send-fill"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <button class="chatbot-toggle" id="toggleChat">
+        <i class="bi bi-chat-dots-fill"></i>
+        <span class="badge" id="unreadCount" style="display: none;">1</span>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="common.js"></script>
+    <script src="main.js"></script>
+    <script src="infra-map.js"></script>
+    <script src="chatbot.js"></script>
+    <script>
+        // Enhanced infrastructure map functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Infrastructure Map DOM loaded');
+            
+            // Initialize tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+
+            // Check if data is already loaded (by main.js), if not load it
+            if (window.currentSolarData && window.currentSolarData.length > 0) {
+                console.log('Data already loaded, skipping loadData call');
+                // Data is already loaded, just ensure initialization happens
+                if (!window.infraMapInitialized) {
+                    initializeInfraPage(window.currentSolarData, window.currentSustainabilityData);
+                }
+            } else {
+                console.log('Data not loaded yet, calling loadData');
+                // Only call loadData if main.js hasn't loaded it yet
+                loadData().catch(error => {
+                    console.error('Failed to load infrastructure map data:', error);
+                    document.getElementById('loading').innerHTML = '<div class="alert alert-danger">Error loading data: ' + error.message + '</div>';
+                });
+                         }
+             
+             // Add global debug function
+             window.debugInfraMap = function() {
+                 console.log('=== INFRA MAP DEBUG ===');
+                 console.log('Window solar data:', window.solarData?.length);
+                 console.log('Window current solar data:', window.currentSolarData?.length);
+                 console.log('Infra map initialized:', window.infraMapInitialized);
+                 console.log('Map element:', document.getElementById('map'));
+                 console.log('Loading element:', document.getElementById('loading'));
+                 console.log('Metrics elements:', {
+                     totalInstallations: document.getElementById('totalInstallations')?.textContent,
+                     totalAcres: document.getElementById('totalAcres')?.textContent,
+                     avgDistance: document.getElementById('avgDistance')?.textContent
+                 });
+                 
+                 // Try manual update
+                 if (window.currentSolarData && window.currentSolarData.length > 0) {
+                     console.log('Attempting manual update...');
+                     updateInfraMapVisualizations(window.currentSolarData, window.currentSustainabilityData, '');
+                 } else {
+                     console.log('No data available for manual update');
+                 }
+             };
+        });
+
+        // Map control functions
+        function zoomIn() {
+            console.log('Zooming in...');
+            if (typeof mapZoomIn === 'function') {
+                mapZoomIn();
+            }
+        }
+
+        function zoomOut() {
+            console.log('Zooming out...');
+            if (typeof mapZoomOut === 'function') {
+                mapZoomOut();
+            }
+        }
+
+        function resetZoom() {
+            console.log('Resetting zoom...');
+            if (typeof mapResetView === 'function') {
+                mapResetView();
+            }
+        }
+    </script>
+</body>
+</html> 

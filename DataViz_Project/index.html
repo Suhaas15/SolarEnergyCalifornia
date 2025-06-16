@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Footprints California | Interactive Analytics</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-orange: #FF6B35;
+            --solar-gold: #F7B731;
+            --warm-amber: #FFA726;
+            --deep-blue: #1B263B;
+            --navy-dark: #0D1B2A;
+            --soft-gray: #F8F9FA;
+            --light-gray: #E9ECEF;
+            --medium-gray: #6C757D;
+            --success-green: #28A745;
+            --text-dark: #2C3E50;
+            --gradient-sunset: linear-gradient(135deg, #FF6B35 0%, #F7B731 100%);
+            --gradient-sky: linear-gradient(135deg, #74B9FF 0%, #0984E3 100%);
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --shadow-strong: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--soft-gray);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 107, 53, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            box-shadow: var(--shadow-soft);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-orange);
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+            color: var(--solar-gold);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link.active {
+            background: var(--gradient-sunset);
+            color: white;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .nav-link:not(.active):hover {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--primary-orange);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--primary-orange);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-title .highlight {
+            background: var(--gradient-sunset);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--medium-gray);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-item {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-orange);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--medium-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-sunset);
+            color: white;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary-orange);
+            border: 2px solid var(--primary-orange);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-orange);
+            color: white;
+        }
+
+        .hero-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+
+
+        .solar-panel {
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-sky);
+            border-radius: 20px;
+            position: relative;
+            box-shadow: var(--shadow-strong);
+            overflow: hidden;
+        }
+
+        .solar-panel::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            background: linear-gradient(45deg,
+                    transparent 45%,
+                    rgba(255, 255, 255, 0.1) 47%,
+                    rgba(255, 255, 255, 0.1) 53%,
+                    transparent 55%);
+            border-radius: 15px;
+        }
+
+        .solar-rays {
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, var(--solar-gold) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .solar-rays::before,
+        .solar-rays::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            height: 30px;
+            background: var(--solar-gold);
+            border-radius: 2px;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--medium-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Visualization Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 107, 53, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-sunset);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: rgba(255, 107, 53, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--primary-orange);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .card-description {
+            color: var(--medium-gray);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-link {
+            color: var(--primary-orange);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .card-link:hover {
+            gap: 0.8rem;
+        }
+
+        /* Metrics Section */
+        .metrics-section {
+            background: var(--gradient-sunset);
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            margin: 4rem 0;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metrics-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .metric-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .metric-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        /* Insights Section */
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .insight-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-soft);
+            border-left: 4px solid var(--primary-orange);
+        }
+
+        .insight-icon {
+            font-size: 2rem;
+            color: var(--primary-orange);
+            margin-bottom: 1rem;
+        }
+
+        .insight-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .insight-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .insight-list li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+            color: var(--medium-gray);
+        }
+
+        .insight-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary-orange);
+            font-weight: bold;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--navy-dark);
+            color: white;
+            padding: 3rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--solar-gold);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .solar-illustration {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 2rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .solar-panel,
+        .solar-rays {
+            display: none;
+        }
+
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: block;
+            padding: 0.3rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--solar-gold);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-visual {
+                order: -1;
+            }
+
+
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .section {
+                padding: 3rem 1rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">
+                <i class="fas fa-sun"></i>
+                <span>Solar Footprints</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="land-use.html" class="nav-link">Land Use</a></li>
+                <li><a href="infra-map.html" class="nav-link">Infrastructure</a></li>
+                <li><a href="urban-chord.html" class="nav-link">Urban Flow</a></li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-leaf"></i>
+                    <span>Sustainable Energy Analytics</span>
+                </div>
+                <h1 class="hero-title">
+                    <span class="highlight">Solar Footprints</span><br>
+                    across California
+                </h1>
+                <p class="hero-description">
+                    Comprehensive analysis of renewable energy infrastructure across California's
+                    51 counties. Discover patterns in land use, grid capacity, and sustainability
+                    metrics through interactive data visualizations.
+                </p>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="countiesCount">51</span>
+                        <span class="stat-label">Counties</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="installationsCount">12.5K+</span>
+                        <span class="stat-label">Installations</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="acresSaved">820+</span>
+                        <span class="stat-label">Acres Saved</span>
+                    </div>
+                </div>
+
+                <div class="hero-cta">
+                    <a href="#visualizations" class="btn btn-primary">
+                        <i class="fas fa-chart-line"></i>
+                        Explore Data
+                    </a>
+                    <a href="#insights" class="btn btn-secondary">
+                        <i class="fas fa-lightbulb"></i>
+                        View Insights
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="solar-illustration">
+                    <lottie-player src="solar-animation.json" background="transparent" speed="1" loop autoplay
+                        style="width: 100%; max-width: 550px; height: auto;">
+                    </lottie-player>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Visualizations Section -->
+    <section class="section fade-in" id="visualizations">
+        <div class="section-header">
+            <h2 class="section-title">Interactive Visualizations</h2>
+            <p class="section-subtitle">
+                Explore California's solar landscape through carefully crafted data visualizations
+                that reveal insights about land use, infrastructure, and energy flow patterns.
+            </p>
+        </div>
+
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <h3 class="card-title">Land Use Analysis</h3>
+                <p class="card-description">
+                    Compare land consumption patterns between rooftop and ground-mounted solar
+                    installations across California's diverse geography and urban environments.
+                </p>
+                <a href="land-use.html" class="card-link">
+                    Explore Analysis <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <h3 class="card-title">Infrastructure Mapping</h3>
+                <p class="card-description">
+                    Visualize electrical grid capacity and infrastructure readiness through
+                    advanced bivariate mapping showing grid strength by county.
+                </p>
+                <a href="infra-map.html" class="card-link">
+                    View Infrastructure <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <h3 class="card-title">Urban Energy Flow</h3>
+                <p class="card-description">
+                    Interactive chord diagram revealing energy transfer relationships and
+                    capacity sharing potential between California's counties.
+                </p>
+                <a href="urban-chord.html" class="card-link">
+                    Analyze Flow <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Metrics -->
+    <section class="section">
+        <div class="metrics-section fade-in">
+            <div class="section-header">
+                <h2 class="section-title">Environmental Impact</h2>
+                <p class="section-subtitle">
+                    Quantifying the positive environmental effects of California's solar installations
+                </p>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <i class="fas fa-leaf metric-icon"></i>
+                    <div class="metric-value">820+</div>
+                    <div class="metric-label">Acres Preserved</div>
+                </div>
+                <div class="metric-card">
+                    <i class="fas fa-plug metric-icon"></i>
+                    <div class="metric-value">86%</div>
+                    <div class="metric-label">Grid Optimized</div>
+                </div>
+                <div class="metric-card">
+                    <i class="fas fa-cloud metric-icon"></i>
+                    <div class="metric-value">12.5K</div>
+                    <div class="metric-label">CO₂ Reduced</div>
+                </div>
+                <div class="metric-card">
+                    <i class="fas fa-city metric-icon"></i>
+                    <div class="metric-value">22%</div>
+                    <div class="metric-label">Urban Efficiency</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Insights -->
+    <section class="section fade-in" id="insights">
+        <div class="section-header">
+            <h2 class="section-title">Key Insights</h2>
+            <p class="section-subtitle">
+                Data-driven discoveries about California's solar energy landscape
+            </p>
+        </div>
+
+        <div class="insights-grid">
+            <div class="insight-card">
+                <i class="fas fa-map-pin insight-icon"></i>
+                <h3 class="insight-title">Geographic Distribution</h3>
+                <ul class="insight-list">
+                    <li>Comprehensive coverage across all 51 counties</li>
+                    <li>Alameda, LA, and San Diego lead in installations</li>
+                    <li>Rural counties show unique deployment patterns</li>
+                    <li>Coastal vs inland installation preferences</li>
+                </ul>
+            </div>
+
+            <div class="insight-card">
+                <i class="fas fa-bolt insight-icon"></i>
+                <h3 class="insight-title">Grid Infrastructure</h3>
+                <ul class="insight-list">
+                    <li>68% of sites served by high-voltage lines</li>
+                    <li>14% require grid capacity upgrades</li>
+                    <li>Significant county-level infrastructure variance</li>
+                    <li>Strategic investment opportunities identified</li>
+                </ul>
+            </div>
+
+            <div class="insight-card">
+                <i class="fas fa-chart-bar insight-icon"></i>
+                <h3 class="insight-title">Efficiency Patterns</h3>
+                <ul class="insight-list">
+                    <li>Top 5 counties generate 40% of total capacity</li>
+                    <li>Urban installations show 22% higher efficiency</li>
+                    <li>Seasonal performance variations mapped</li>
+                    <li>Optimization potential clearly defined</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Visualizations</h4>
+                <a href="land-use.html">Land Use Analysis</a>
+                <a href="infra-map.html">Infrastructure Map</a>
+                <a href="urban-chord.html">Urban Energy Flow</a>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <a href="#methodology">Methodology</a>
+                <a href="#data-sources">Data Sources</a>
+                <a href="#api">API Documentation</a>
+            </div>
+            <div class="footer-section">
+                <h4>About</h4>
+                <a href="#project">Project Overview</a>
+                <a href="#team">Research Team</a>
+                <a href="#contact">Contact Us</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Solar Footprints California. Advancing renewable energy through data insights.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Smooth scrolling and navbar updates
+        document.addEventListener('DOMContentLoaded', function () {
+            const navbar = document.getElementById('navbar');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Navbar scroll effect
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Smooth scrolling for navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+
+
+                    // Update active state
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Smooth scroll to section
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+
+                    if (targetSection) {
+                        const offsetTop = targetSection.offsetTop - 80;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Intersection Observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function (entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe fade-in elements
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Animated counters
+            function animateCounter(element, target, duration = 2000) {
+                let start = 0;
+                const increment = target / (duration / 16);
+
+                function updateCounter() {
+                    start += increment;
+                    if (start < target) {
+                        if (element.id === 'installationsCount') {
+                            element.textContent = (start / 1000).toFixed(1) + 'K+';
+                        } else if (element.id === 'acresSaved') {
+                            element.textContent = Math.floor(start) + '+';
+                        } else {
+                            element.textContent = Math.floor(start);
+                        }
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        if (element.id === 'installationsCount') {
+                            element.textContent = target.toLocaleString() + '+';
+                        } else if (element.id === 'acresSaved') {
+                            element.textContent = target + '+';
+                        } else {
+                            element.textContent = target;
+                        }
+                    }
+                }
+                updateCounter();
+            }
+
+            // Trigger the counter animation when the section is visible
+            const countersStarted = {
+                countiesCount: false,
+                installationsCount: false,
+                acresSaved: false
+            };
+
+            const counters = [
+                { id: 'countiesCount', target: 51 },
+                { id: 'installationsCount', target: 12500 },
+                { id: 'acresSaved', target: 820 }
+            ];
+
+            const counterObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const id = el.id;
+                        if (!countersStarted[id]) {
+                            const { target } = counters.find(c => c.id === id);
+                            animateCounter(el, target);
+                            countersStarted[id] = true;
+                        }
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            counters.forEach(({ id }) => {
+                const el = document.getElementById(id);
+                if (el) counterObserver.observe(el);
+            });
+        });
+    </script>
+</body>
+
+</html>

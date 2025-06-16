@@ -1,0 +1,913 @@
+{
+  "examples": [
+    {
+      "query": "How many solar installations are in Alameda County?",
+      "response": "Alameda County has 186 installations."
+    },
+    {
+      "query": "What is the ranking of Alameda County in terms of installations?",
+      "response": "Alameda County ranks #10 in California with 186 installations."
+    },
+    {
+      "query": "How many solar installations are in Amador County?",
+      "response": "Amador County has 2 installations."
+    },
+    {
+      "query": "What is the ranking of Amador County in terms of installations?",
+      "response": "Amador County ranks #47 in California with 2 installations."
+    },
+    {
+      "query": "How many solar installations are in Butte County?",
+      "response": "Butte County has 64 installations."
+    },
+    {
+      "query": "What is the ranking of Butte County in terms of installations?",
+      "response": "Butte County ranks #22 in California with 64 installations."
+    },
+    {
+      "query": "How many solar installations are in Calaveras County?",
+      "response": "Calaveras County has 2 installations."
+    },
+    {
+      "query": "What is the ranking of Calaveras County in terms of installations?",
+      "response": "Calaveras County ranks #47 in California with 2 installations."
+    },
+    {
+      "query": "How many solar installations are in Colusa County?",
+      "response": "Colusa County has 10 installations."
+    },
+    {
+      "query": "What is the ranking of Colusa County in terms of installations?",
+      "response": "Colusa County ranks #40 in California with 10 installations."
+    },
+    {
+      "query": "How many solar installations are in Contra Costa County?",
+      "response": "Contra Costa County has 150 installations."
+    },
+    {
+      "query": "What is the ranking of Contra Costa County in terms of installations?",
+      "response": "Contra Costa County ranks #13 in California with 150 installations."
+    },
+    {
+      "query": "How many solar installations are in El Dorado County?",
+      "response": "El Dorado County has 17 installations."
+    },
+    {
+      "query": "What is the ranking of El Dorado County in terms of installations?",
+      "response": "El Dorado County ranks #34 in California with 17 installations."
+    },
+    {
+      "query": "How many solar installations are in Fresno County?",
+      "response": "Fresno County has 372 installations."
+    },
+    {
+      "query": "What is the ranking of Fresno County in terms of installations?",
+      "response": "Fresno County ranks #4 in California with 372 installations."
+    },
+    {
+      "query": "How many solar installations are in Glenn County?",
+      "response": "Glenn County has 10 installations."
+    },
+    {
+      "query": "What is the ranking of Glenn County in terms of installations?",
+      "response": "Glenn County ranks #40 in California with 10 installations."
+    },
+    {
+      "query": "How many solar installations are in Humboldt County?",
+      "response": "Humboldt County has 3 installations."
+    },
+    {
+      "query": "What is the ranking of Humboldt County in terms of installations?",
+      "response": "Humboldt County ranks #46 in California with 3 installations."
+    },
+    {
+      "query": "How many solar installations are in Imperial County?",
+      "response": "Imperial County has 48 installations."
+    },
+    {
+      "query": "What is the ranking of Imperial County in terms of installations?",
+      "response": "Imperial County ranks #28 in California with 48 installations."
+    },
+    {
+      "query": "How many solar installations are in Inyo County?",
+      "response": "Inyo County has 15 installations."
+    },
+    {
+      "query": "What is the ranking of Inyo County in terms of installations?",
+      "response": "Inyo County ranks #37 in California with 15 installations."
+    },
+    {
+      "query": "How many solar installations are in Kern County?",
+      "response": "Kern County has 523 installations."
+    },
+    {
+      "query": "What is the ranking of Kern County in terms of installations?",
+      "response": "Kern County ranks #2 in California with 523 installations."
+    },
+    {
+      "query": "How many solar installations are in Kings County?",
+      "response": "Kings County has 137 installations."
+    },
+    {
+      "query": "What is the ranking of Kings County in terms of installations?",
+      "response": "Kings County ranks #15 in California with 137 installations."
+    },
+    {
+      "query": "How many solar installations are in Lake County?",
+      "response": "Lake County has 10 installations."
+    },
+    {
+      "query": "What is the ranking of Lake County in terms of installations?",
+      "response": "Lake County ranks #40 in California with 10 installations."
+    },
+    {
+      "query": "How many solar installations are in Lassen County?",
+      "response": "Lassen County has 4 installations."
+    },
+    {
+      "query": "What is the ranking of Lassen County in terms of installations?",
+      "response": "Lassen County ranks #45 in California with 4 installations."
+    },
+    {
+      "query": "How many solar installations are in Los Angeles County?",
+      "response": "Los Angeles County has 681 installations."
+    },
+    {
+      "query": "What is the ranking of Los Angeles County in terms of installations?",
+      "response": "Los Angeles County ranks #1 in California with 681 installations."
+    },
+    {
+      "query": "How many solar installations are in Madera County?",
+      "response": "Madera County has 69 installations."
+    },
+    {
+      "query": "What is the ranking of Madera County in terms of installations?",
+      "response": "Madera County ranks #20 in California with 69 installations."
+    },
+    {
+      "query": "How many solar installations are in Marin County?",
+      "response": "Marin County has 30 installations."
+    },
+    {
+      "query": "What is the ranking of Marin County in terms of installations?",
+      "response": "Marin County ranks #31 in California with 30 installations."
+    },
+    {
+      "query": "How many solar installations are in Mendocino County?",
+      "response": "Mendocino County has 8 installations."
+    },
+    {
+      "query": "What is the ranking of Mendocino County in terms of installations?",
+      "response": "Mendocino County ranks #43 in California with 8 installations."
+    },
+    {
+      "query": "How many solar installations are in Merced County?",
+      "response": "Merced County has 162 installations."
+    },
+    {
+      "query": "What is the ranking of Merced County in terms of installations?",
+      "response": "Merced County ranks #12 in California with 162 installations."
+    },
+    {
+      "query": "How many solar installations are in Mono County?",
+      "response": "Mono County has 2 installations."
+    },
+    {
+      "query": "What is the ranking of Mono County in terms of installations?",
+      "response": "Mono County ranks #47 in California with 2 installations."
+    },
+    {
+      "query": "How many solar installations are in Monterey County?",
+      "response": "Monterey County has 60 installations."
+    },
+    {
+      "query": "What is the ranking of Monterey County in terms of installations?",
+      "response": "Monterey County ranks #24 in California with 60 installations."
+    },
+    {
+      "query": "How many solar installations are in Napa County?",
+      "response": "Napa County has 26 installations."
+    },
+    {
+      "query": "What is the ranking of Napa County in terms of installations?",
+      "response": "Napa County ranks #33 in California with 26 installations."
+    },
+    {
+      "query": "How many solar installations are in Nevada County?",
+      "response": "Nevada County has 5 installations."
+    },
+    {
+      "query": "What is the ranking of Nevada County in terms of installations?",
+      "response": "Nevada County ranks #44 in California with 5 installations."
+    },
+    {
+      "query": "How many solar installations are in Orange County?",
+      "response": "Orange County has 194 installations."
+    },
+    {
+      "query": "What is the ranking of Orange County in terms of installations?",
+      "response": "Orange County ranks #8 in California with 194 installations."
+    },
+    {
+      "query": "How many solar installations are in Placer County?",
+      "response": "Placer County has 58 installations."
+    },
+    {
+      "query": "What is the ranking of Placer County in terms of installations?",
+      "response": "Placer County ranks #25 in California with 58 installations."
+    },
+    {
+      "query": "How many solar installations are in Plumas County?",
+      "response": "Plumas County has 1 installations."
+    },
+    {
+      "query": "What is the ranking of Plumas County in terms of installations?",
+      "response": "Plumas County ranks #50 in California with 1 installations."
+    },
+    {
+      "query": "How many solar installations are in Riverside County?",
+      "response": "Riverside County has 189 installations."
+    },
+    {
+      "query": "What is the ranking of Riverside County in terms of installations?",
+      "response": "Riverside County ranks #9 in California with 189 installations."
+    },
+    {
+      "query": "How many solar installations are in Sacramento County?",
+      "response": "Sacramento County has 163 installations."
+    },
+    {
+      "query": "What is the ranking of Sacramento County in terms of installations?",
+      "response": "Sacramento County ranks #11 in California with 163 installations."
+    },
+    {
+      "query": "How many solar installations are in San Benito County?",
+      "response": "San Benito County has 29 installations."
+    },
+    {
+      "query": "What is the ranking of San Benito County in terms of installations?",
+      "response": "San Benito County ranks #32 in California with 29 installations."
+    },
+    {
+      "query": "How many solar installations are in San Bernardino County?",
+      "response": "San Bernardino County has 317 installations."
+    },
+    {
+      "query": "What is the ranking of San Bernardino County in terms of installations?",
+      "response": "San Bernardino County ranks #5 in California with 317 installations."
+    },
+    {
+      "query": "How many solar installations are in San Diego County?",
+      "response": "San Diego County has 391 installations."
+    },
+    {
+      "query": "What is the ranking of San Diego County in terms of installations?",
+      "response": "San Diego County ranks #3 in California with 391 installations."
+    },
+    {
+      "query": "How many solar installations are in San Francisco County?",
+      "response": "San Francisco County has 12 installations."
+    },
+    {
+      "query": "What is the ranking of San Francisco County in terms of installations?",
+      "response": "San Francisco County ranks #39 in California with 12 installations."
+    },
+    {
+      "query": "How many solar installations are in San Joaquin County?",
+      "response": "San Joaquin County has 150 installations."
+    },
+    {
+      "query": "What is the ranking of San Joaquin County in terms of installations?",
+      "response": "San Joaquin County ranks #13 in California with 150 installations."
+    },
+    {
+      "query": "How many solar installations are in San Luis Obispo County?",
+      "response": "San Luis Obispo County has 71 installations."
+    },
+    {
+      "query": "What is the ranking of San Luis Obispo County in terms of installations?",
+      "response": "San Luis Obispo County ranks #19 in California with 71 installations."
+    },
+    {
+      "query": "How many solar installations are in San Mateo County?",
+      "response": "San Mateo County has 56 installations."
+    },
+    {
+      "query": "What is the ranking of San Mateo County in terms of installations?",
+      "response": "San Mateo County ranks #26 in California with 56 installations."
+    },
+    {
+      "query": "How many solar installations are in Santa Barbara County?",
+      "response": "Santa Barbara County has 38 installations."
+    },
+    {
+      "query": "What is the ranking of Santa Barbara County in terms of installations?",
+      "response": "Santa Barbara County ranks #29 in California with 38 installations."
+    },
+    {
+      "query": "How many solar installations are in Santa Clara County?",
+      "response": "Santa Clara County has 276 installations."
+    },
+    {
+      "query": "What is the ranking of Santa Clara County in terms of installations?",
+      "response": "Santa Clara County ranks #6 in California with 276 installations."
+    },
+    {
+      "query": "How many solar installations are in Santa Cruz County?",
+      "response": "Santa Cruz County has 16 installations."
+    },
+    {
+      "query": "What is the ranking of Santa Cruz County in terms of installations?",
+      "response": "Santa Cruz County ranks #36 in California with 16 installations."
+    },
+    {
+      "query": "How many solar installations are in Shasta County?",
+      "response": "Shasta County has 31 installations."
+    },
+    {
+      "query": "What is the ranking of Shasta County in terms of installations?",
+      "response": "Shasta County ranks #30 in California with 31 installations."
+    },
+    {
+      "query": "How many solar installations are in Solano County?",
+      "response": "Solano County has 100 installations."
+    },
+    {
+      "query": "What is the ranking of Solano County in terms of installations?",
+      "response": "Solano County ranks #18 in California with 100 installations."
+    },
+    {
+      "query": "How many solar installations are in Sonoma County?",
+      "response": "Sonoma County has 132 installations."
+    },
+    {
+      "query": "What is the ranking of Sonoma County in terms of installations?",
+      "response": "Sonoma County ranks #16 in California with 132 installations."
+    },
+    {
+      "query": "How many solar installations are in Stanislaus County?",
+      "response": "Stanislaus County has 108 installations."
+    },
+    {
+      "query": "What is the ranking of Stanislaus County in terms of installations?",
+      "response": "Stanislaus County ranks #17 in California with 108 installations."
+    },
+    {
+      "query": "How many solar installations are in Sutter County?",
+      "response": "Sutter County has 49 installations."
+    },
+    {
+      "query": "What is the ranking of Sutter County in terms of installations?",
+      "response": "Sutter County ranks #27 in California with 49 installations."
+    },
+    {
+      "query": "How many solar installations are in Tehama County?",
+      "response": "Tehama County has 17 installations."
+    },
+    {
+      "query": "What is the ranking of Tehama County in terms of installations?",
+      "response": "Tehama County ranks #34 in California with 17 installations."
+    },
+    {
+      "query": "How many solar installations are in Tulare County?",
+      "response": "Tulare County has 257 installations."
+    },
+    {
+      "query": "What is the ranking of Tulare County in terms of installations?",
+      "response": "Tulare County ranks #7 in California with 257 installations."
+    },
+    {
+      "query": "How many solar installations are in Tuolumne County?",
+      "response": "Tuolumne County has 1 installations."
+    },
+    {
+      "query": "What is the ranking of Tuolumne County in terms of installations?",
+      "response": "Tuolumne County ranks #50 in California with 1 installations."
+    },
+    {
+      "query": "How many solar installations are in Ventura County?",
+      "response": "Ventura County has 68 installations."
+    },
+    {
+      "query": "What is the ranking of Ventura County in terms of installations?",
+      "response": "Ventura County ranks #21 in California with 68 installations."
+    },
+    {
+      "query": "How many solar installations are in Yolo County?",
+      "response": "Yolo County has 63 installations."
+    },
+    {
+      "query": "What is the ranking of Yolo County in terms of installations?",
+      "response": "Yolo County ranks #23 in California with 63 installations."
+    },
+    {
+      "query": "How many solar installations are in Yuba County?",
+      "response": "Yuba County has 14 installations."
+    },
+    {
+      "query": "What is the ranking of Yuba County in terms of installations?",
+      "response": "Yuba County ranks #38 in California with 14 installations."
+    }
+  ],
+  "county_stats": [
+    {
+      "County": "Alameda",
+      "total_installations": 186,
+      "Acres": 2.1882718059750466,
+      "Urban or Rural": {
+        "Urban": 185,
+        "Rural": 1
+      },
+      "rank": 10
+    },
+    {
+      "County": "Amador",
+      "total_installations": 2,
+      "Acres": 4.873665445906863,
+      "Urban or Rural": {
+        "Rural": 2
+      },
+      "rank": 47
+    },
+    {
+      "County": "Butte",
+      "total_installations": 64,
+      "Acres": 2.0155304867777457,
+      "Urban or Rural": {
+        "Urban": 39,
+        "Rural": 25
+      },
+      "rank": 22
+    },
+    {
+      "County": "Calaveras",
+      "total_installations": 2,
+      "Acres": 0.8705691834893534,
+      "Urban or Rural": {
+        "Rural": 2
+      },
+      "rank": 47
+    },
+    {
+      "County": "Colusa",
+      "total_installations": 10,
+      "Acres": 2.571035393044785,
+      "Urban or Rural": {
+        "Rural": 10
+      },
+      "rank": 40
+    },
+    {
+      "County": "Contra Costa",
+      "total_installations": 150,
+      "Acres": 2.8341589133677223,
+      "Urban or Rural": {
+        "Urban": 143,
+        "Rural": 7
+      },
+      "rank": 13
+    },
+    {
+      "County": "El Dorado",
+      "total_installations": 17,
+      "Acres": 2.8051716330755037,
+      "Urban or Rural": {
+        "Urban": 15,
+        "Rural": 2
+      },
+      "rank": 34
+    },
+    {
+      "County": "Fresno",
+      "total_installations": 372,
+      "Acres": 22.74950789888052,
+      "Urban or Rural": {
+        "Urban": 203,
+        "Rural": 169
+      },
+      "rank": 4
+    },
+    {
+      "County": "Glenn",
+      "total_installations": 10,
+      "Acres": 2.805901643612084,
+      "Urban or Rural": {
+        "Rural": 10
+      },
+      "rank": 40
+    },
+    {
+      "County": "Humboldt",
+      "total_installations": 3,
+      "Acres": 3.436684069371054,
+      "Urban or Rural": {
+        "Urban": 2,
+        "Rural": 1
+      },
+      "rank": 46
+    },
+    {
+      "County": "Imperial",
+      "total_installations": 48,
+      "Acres": 342.37072541018574,
+      "Urban or Rural": {
+        "Rural": 45,
+        "Urban": 3
+      },
+      "rank": 28
+    },
+    {
+      "County": "Inyo",
+      "total_installations": 15,
+      "Acres": 2.677772301429149,
+      "Urban or Rural": {
+        "Rural": 15
+      },
+      "rank": 37
+    },
+    {
+      "County": "Kern",
+      "total_installations": 523,
+      "Acres": 59.502891728980444,
+      "Urban or Rural": {
+        "Rural": 337,
+        "Urban": 186
+      },
+      "rank": 2
+    },
+    {
+      "County": "Kings",
+      "total_installations": 137,
+      "Acres": 116.0629065647623,
+      "Urban or Rural": {
+        "Rural": 92,
+        "Urban": 45
+      },
+      "rank": 15
+    },
+    {
+      "County": "Lake",
+      "total_installations": 10,
+      "Acres": 3.5301269684385828,
+      "Urban or Rural": {
+        "Rural": 10
+      },
+      "rank": 40
+    },
+    {
+      "County": "Lassen",
+      "total_installations": 4,
+      "Acres": 16.201411176904134,
+      "Urban or Rural": {
+        "Rural": 3,
+        "Urban": 1
+      },
+      "rank": 45
+    },
+    {
+      "County": "Los Angeles",
+      "total_installations": 681,
+      "Acres": 16.277479527369255,
+      "Urban or Rural": {
+        "Urban": 643,
+        "Rural": 38
+      },
+      "rank": 1
+    },
+    {
+      "County": "Madera",
+      "total_installations": 69,
+      "Acres": 11.630685704456813,
+      "Urban or Rural": {
+        "Rural": 56,
+        "Urban": 13
+      },
+      "rank": 20
+    },
+    {
+      "County": "Marin",
+      "total_installations": 30,
+      "Acres": 1.236442661869914,
+      "Urban or Rural": {
+        "Urban": 19,
+        "Rural": 11
+      },
+      "rank": 31
+    },
+    {
+      "County": "Mendocino",
+      "total_installations": 8,
+      "Acres": 1.8925434146523206,
+      "Urban or Rural": {
+        "Rural": 6,
+        "Urban": 2
+      },
+      "rank": 43
+    },
+    {
+      "County": "Merced",
+      "total_installations": 162,
+      "Acres": 15.040328126326925,
+      "Urban or Rural": {
+        "Rural": 139,
+        "Urban": 23
+      },
+      "rank": 12
+    },
+    {
+      "County": "Mono",
+      "total_installations": 2,
+      "Acres": 2.3098065181138496,
+      "Urban or Rural": {
+        "Rural": 2
+      },
+      "rank": 47
+    },
+    {
+      "County": "Monterey",
+      "total_installations": 60,
+      "Acres": 30.596431904971155,
+      "Urban or Rural": {
+        "Rural": 33,
+        "Urban": 27
+      },
+      "rank": 24
+    },
+    {
+      "County": "Napa",
+      "total_installations": 26,
+      "Acres": 3.148333658652765,
+      "Urban or Rural": {
+        "Urban": 14,
+        "Rural": 12
+      },
+      "rank": 33
+    },
+    {
+      "County": "Nevada",
+      "total_installations": 5,
+      "Acres": 1.0452640904317065,
+      "Urban or Rural": {
+        "Rural": 4,
+        "Urban": 1
+      },
+      "rank": 44
+    },
+    {
+      "County": "Orange",
+      "total_installations": 194,
+      "Acres": 2.4268357815162025,
+      "Urban or Rural": {
+        "Urban": 194
+      },
+      "rank": 8
+    },
+    {
+      "County": "Placer",
+      "total_installations": 58,
+      "Acres": 1.9453760638259616,
+      "Urban or Rural": {
+        "Urban": 51,
+        "Rural": 7
+      },
+      "rank": 25
+    },
+    {
+      "County": "Plumas",
+      "total_installations": 1,
+      "Acres": 4.53044274468663,
+      "Urban or Rural": {
+        "Rural": 1
+      },
+      "rank": 50
+    },
+    {
+      "County": "Riverside",
+      "total_installations": 189,
+      "Acres": 145.01182123298173,
+      "Urban or Rural": {
+        "Urban": 131,
+        "Rural": 58
+      },
+      "rank": 9
+    },
+    {
+      "County": "Sacramento",
+      "total_installations": 163,
+      "Acres": 10.859578030098021,
+      "Urban or Rural": {
+        "Urban": 127,
+        "Rural": 36
+      },
+      "rank": 11
+    },
+    {
+      "County": "San Benito",
+      "total_installations": 29,
+      "Acres": 42.35795856814608,
+      "Urban or Rural": {
+        "Rural": 15,
+        "Urban": 14
+      },
+      "rank": 32
+    },
+    {
+      "County": "San Bernardino",
+      "total_installations": 317,
+      "Acres": 50.52183303786163,
+      "Urban or Rural": {
+        "Urban": 255,
+        "Rural": 62
+      },
+      "rank": 5
+    },
+    {
+      "County": "San Diego",
+      "total_installations": 391,
+      "Acres": 3.047246361085574,
+      "Urban or Rural": {
+        "Urban": 361,
+        "Rural": 30
+      },
+      "rank": 3
+    },
+    {
+      "County": "San Francisco",
+      "total_installations": 12,
+      "Acres": 1.937867671993586,
+      "Urban or Rural": {
+        "Urban": 12
+      },
+      "rank": 39
+    },
+    {
+      "County": "San Joaquin",
+      "total_installations": 150,
+      "Acres": 3.0456612080476804,
+      "Urban or Rural": {
+        "Urban": 101,
+        "Rural": 49
+      },
+      "rank": 13
+    },
+    {
+      "County": "San Luis Obispo",
+      "total_installations": 71,
+      "Acres": 66.8901675389997,
+      "Urban or Rural": {
+        "Rural": 41,
+        "Urban": 30
+      },
+      "rank": 19
+    },
+    {
+      "County": "San Mateo",
+      "total_installations": 56,
+      "Acres": 1.7450989662766274,
+      "Urban or Rural": {
+        "Urban": 54,
+        "Rural": 2
+      },
+      "rank": 26
+    },
+    {
+      "County": "Santa Barbara",
+      "total_installations": 38,
+      "Acres": 12.773731497630218,
+      "Urban or Rural": {
+        "Urban": 22,
+        "Rural": 16
+      },
+      "rank": 29
+    },
+    {
+      "County": "Santa Clara",
+      "total_installations": 276,
+      "Acres": 1.8297656044581456,
+      "Urban or Rural": {
+        "Urban": 264,
+        "Rural": 12
+      },
+      "rank": 6
+    },
+    {
+      "County": "Santa Cruz",
+      "total_installations": 16,
+      "Acres": 1.0610010947275141,
+      "Urban or Rural": {
+        "Urban": 12,
+        "Rural": 4
+      },
+      "rank": 36
+    },
+    {
+      "County": "Shasta",
+      "total_installations": 31,
+      "Acres": 2.193409974697516,
+      "Urban or Rural": {
+        "Rural": 17,
+        "Urban": 14
+      },
+      "rank": 30
+    },
+    {
+      "County": "Solano",
+      "total_installations": 100,
+      "Acres": 3.6115808278013533,
+      "Urban or Rural": {
+        "Urban": 92,
+        "Rural": 8
+      },
+      "rank": 18
+    },
+    {
+      "County": "Sonoma",
+      "total_installations": 132,
+      "Acres": 1.3927886355236994,
+      "Urban or Rural": {
+        "Urban": 101,
+        "Rural": 31
+      },
+      "rank": 16
+    },
+    {
+      "County": "Stanislaus",
+      "total_installations": 108,
+      "Acres": 15.313692277469979,
+      "Urban or Rural": {
+        "Rural": 81,
+        "Urban": 27
+      },
+      "rank": 17
+    },
+    {
+      "County": "Sutter",
+      "total_installations": 49,
+      "Acres": 1.8352063224460704,
+      "Urban or Rural": {
+        "Rural": 29,
+        "Urban": 20
+      },
+      "rank": 27
+    },
+    {
+      "County": "Tehama",
+      "total_installations": 17,
+      "Acres": 5.260594074488001,
+      "Urban or Rural": {
+        "Rural": 15,
+        "Urban": 2
+      },
+      "rank": 34
+    },
+    {
+      "County": "Tulare",
+      "total_installations": 257,
+      "Acres": 12.851768771935113,
+      "Urban or Rural": {
+        "Rural": 182,
+        "Urban": 75
+      },
+      "rank": 7
+    },
+    {
+      "County": "Tuolumne",
+      "total_installations": 1,
+      "Acres": 12.9518919193985,
+      "Urban or Rural": {
+        "Rural": 1
+      },
+      "rank": 50
+    },
+    {
+      "County": "Ventura",
+      "total_installations": 68,
+      "Acres": 3.651268837923592,
+      "Urban or Rural": {
+        "Urban": 61,
+        "Rural": 7
+      },
+      "rank": 21
+    },
+    {
+      "County": "Yolo",
+      "total_installations": 63,
+      "Acres": 3.4470118556427063,
+      "Urban or Rural": {
+        "Urban": 40,
+        "Rural": 23
+      },
+      "rank": 23
+    },
+    {
+      "County": "Yuba",
+      "total_installations": 14,
+      "Acres": 3.0177666359439472,
+      "Urban or Rural": {
+        "Rural": 7,
+        "Urban": 7
+      },
+      "rank": 38
+    }
+  ]
+}

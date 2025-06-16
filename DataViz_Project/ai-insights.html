@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Solar Insights | Solar Footprints California</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-sun me-2"></i>Solar Analytics
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="land-use.html">Land Use</a></li>
+                    <li class="nav-item"><a class="nav-link" href="infra-map.html">Infrastructure</a></li>
+                    <li class="nav-item"><a class="nav-link" href="urban-chord.html">Urban Flow</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="ai-insights.html">AI Insights</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="viz-container">
+        <div class="row h-100">
+            <!-- Query Panel -->
+            <div class="col-md-4">
+                <div class="control-panel sticky-top">
+                    <!-- Natural Language Query Card -->
+                    <div class="control-card mb-3">
+                        <h5 class="control-title">
+                            <i class="bi bi-robot"></i> AI Analysis
+                        </h5>
+                        <div class="mb-3">
+                            <label for="queryInput" class="form-label">Ask about solar installations</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="queryInput" 
+                                       placeholder="e.g., What are the best areas for new installations?">
+                                <button class="btn btn-primary" type="button" id="queryButton">
+                                    <i class="bi bi-send"></i>
+                                </button>
+                            </div>
+                            <small class="text-muted">Ask questions in natural language about installations, patterns, or recommendations.</small>
+                        </div>
+                        
+                        <!-- Quick Queries -->
+                        <div class="mb-3">
+                            <label class="form-label">Quick Insights</label>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-outline-primary btn-sm text-start" onclick="runQuery('optimal-locations')">
+                                    <i class="bi bi-geo-alt"></i> Find optimal new locations
+                                </button>
+                                <button class="btn btn-outline-primary btn-sm text-start" onclick="runQuery('efficiency-patterns')">
+                                    <i class="bi bi-graph-up"></i> Analyze efficiency patterns
+                                </button>
+                                <button class="btn btn-outline-primary btn-sm text-start" onclick="runQuery('recommendations')">
+                                    <i class="bi bi-lightbulb"></i> Get recommendations
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Context Controls -->
+                        <div class="mb-3">
+                            <label for="countyFilter" class="form-label">Analysis Region</label>
+                            <select id="countyFilter" class="form-select">
+                                <option value="all">All Counties</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Model Settings -->
+                        <div class="mb-3">
+                            <label class="form-label d-flex justify-content-between">
+                                Model Settings
+                                <span class="badge bg-success">LM Studio</span>
+                            </label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="deepAnalysis">
+                                <label class="form-check-label" for="deepAnalysis">Deep Analysis Mode</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analysis History -->
+                    <div class="control-card">
+                        <h6 class="mb-3">Recent Analyses</h6>
+                        <div id="analysisHistory" class="analysis-history">
+                            <!-- History items will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Panel -->
+            <div class="col-md-8">
+                <div class="results-container">
+                    <!-- AI Response Card -->
+                    <div class="results-card mb-3">
+                        <div id="aiResponse" class="ai-response">
+                            <div class="text-center text-muted py-5">
+                                <i class="bi bi-robot display-4"></i>
+                                <h5 class="mt-3">Ask me anything about solar installations</h5>
+                                <p class="text-muted">I can help analyze patterns, provide recommendations, and generate insights from the data.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visualization Card -->
+                    <div class="results-card mb-3">
+                        <div id="visualizationArea" class="visualization-area">
+                            <!-- Dynamic visualizations will be rendered here -->
+                        </div>
+                    </div>
+
+                    <!-- Detailed Insights -->
+                    <div class="results-card">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="insight-section">
+                                    <h6><i class="bi bi-graph-up"></i> Key Metrics</h6>
+                                    <div id="keyMetrics">
+                                        <!-- Metrics will be populated here -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="insight-section">
+                                    <h6><i class="bi bi-lightbulb"></i> Recommendations</h6>
+                                    <div id="recommendations">
+                                        <!-- Recommendations will be populated here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Container (from main.js) -->
+    <div class="chatbot-container minimized" id="chatbot">
+        <div class="chatbot-header">
+            <div class="chatbot-title">
+                <i class="bi bi-robot"></i>
+                <span>AI Assistant</span>
+            </div>
+            <div class="chatbot-actions">
+                <button class="btn btn-link p-0 minimize-chat" title="Minimize">
+                    <i class="bi bi-dash-lg"></i>
+                </button>
+                <button class="btn btn-link p-0 ms-2 close-chat" title="Close">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+        </div>
+        <div class="chatbot-body">
+            <div class="chat-messages" id="chatMessages">
+                <div class="message system">
+                    <div class="message-content">
+                        Hello! I can help you analyze the solar installation data and explain the visualizations. What would you like to know?
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <textarea 
+                    id="chatInput" 
+                    placeholder="Ask me about the visualizations..."
+                    rows="1"
+                ></textarea>
+                <button class="btn btn-send" id="sendMessage">
+                    <i class="bi bi-send-fill"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <button class="chatbot-toggle" id="toggleChat">
+        <i class="bi bi-chat-dots-fill"></i>
+        <span class="badge" id="unreadCount" style="display: none;">1</span>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="ai-insights.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+</html> 

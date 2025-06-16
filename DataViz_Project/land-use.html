@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Land Use Analysis | Solar Footprints California</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <i class="fas fa-sun me-2"></i>Solar Analytics
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link active" href="land-use.html">Land Use</a></li>
+          <li class="nav-item"><a class="nav-link" href="infra-map.html">Infrastructure</a></li>
+          <li class="nav-item"><a class="nav-link" href="urban-chord.html">Urban Flow</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid main-container">
+    <!-- Page Header with Enhanced Context -->
+    <div class="row mb-4">
+      <div class="col-lg-8">
+        <h1 class="display-5 fw-bold mb-3">
+          <span class="text-gradient">Land Use & Sustainability Analysis</span>
+        </h1>
+        <p class="lead text-muted">
+          Explore how solar installations optimize land usage across California's diverse landscape. 
+          Analyze the environmental impact, efficiency patterns, and sustainability metrics of different installation approaches.
+        </p>
+      </div>
+      <div class="col-lg-4 text-end">
+        <div class="badge bg-gradient-sunset fs-6 mb-2">
+          <i class="fas fa-leaf"></i> Sustainability Focus
+        </div>
+        <div class="text-muted small">
+          Tracking carbon offset, land preservation, and renewable efficiency metrics
+        </div>
+      </div>
+    </div>
+
+    <!-- Key Metrics Row -->
+    <div class="row mb-2">
+      <div class="col-12">
+        <div class="row g-2">
+          <!-- Key Performance Metrics -->
+          <div class="col-md-3">
+            <div class="metric-card compact text-center">
+              <div class="metric-icon small">
+                <i class="bi bi-solar-panel text-primary"></i>
+              </div>
+              <h6 class="metric-title small">Solar Projects Found</h6>
+              <p class="metric-value small text-primary" id="total-installations">-</p>
+            </div>
+          </div>
+          
+          <div class="col-md-3">
+            <div class="metric-card compact text-center">
+              <div class="metric-icon small">
+                <i class="bi bi-geo-alt text-success"></i>
+              </div>
+              <h6 class="metric-title small">Total Land Used (acres)</h6>
+              <p class="metric-value small text-success" id="total-acres">-</p>
+            </div>
+          </div>
+          
+          <div class="col-md-3">
+            <div class="metric-card compact text-center">
+              <div class="metric-icon small">
+                <i class="bi bi-tree text-info"></i>
+              </div>
+              <h6 class="metric-title small">CO₂ Emissions Prevented</h6>
+              <p class="metric-value small text-info" id="carbon-offset">-</p>
+            </div>
+          </div>
+          
+          <div class="col-md-3">
+            <div class="metric-card compact text-center">
+              <div class="metric-icon small">
+                <i class="bi bi-lightning text-warning"></i>
+              </div>
+              <h6 class="metric-title small">Average Energy Efficiency</h6>
+              <p class="metric-value small text-warning" id="avg-efficiency">-</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters Row -->
+    <div class="row mb-2">
+      <div class="col-12">
+        <div class="control-card horizontal">
+          <h6 class="control-title mb-3">
+            <i class="bi bi-funnel"></i> Filter Solar Installations by
+          </h6>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label for="countyFilter" class="form-label small"><i class="bi bi-geo-alt text-danger"></i> California County</label>
+              <select id="countyFilter" class="form-select form-select-sm">
+                <option value="">All Counties Included</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="installationTypeFilter" class="form-label small"><i class="bi bi-solar-panel text-primary"></i> Solar Panel Location</label>
+              <select id="installationTypeFilter" class="form-select form-select-sm">
+                <option value="all">All Installation Types</option>
+                <option value="Rooftop">🏠 Rooftop Solar Systems</option>
+                <option value="Ground">🌾 Ground-Mounted Solar Farms</option>
+                <option value="Parking">🅿️ Parking Lot Canopy Solar</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="sizeFilter" class="form-label small">
+                <i class="bi bi-arrows-expand text-warning"></i> Project Land Area Size
+                <button type="button" class="btn btn-link p-0 ms-1" data-bs-toggle="modal" data-bs-target="#projectSizeModal" style="font-size: 0.75rem;">
+                  <i class="bi bi-info-circle text-info"></i>
+                </button>
+              </label>
+              <select id="sizeFilter" class="form-select form-select-sm">
+                <option value="all">All Project Sizes</option>
+                <option value="Small(<1)">Small Projects (&lt;1 acre)</option>
+                <option value="Medium(1-5)">Medium Projects (1-5 acres)</option>
+                <option value="Large(5-10)">Large Projects (5-10 acres)</option>
+                <option value="X-Large(10+)">Mega Projects (10+ acres)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Enhanced Visualizations Grid -->
+    <div class="row g-2">
+      <!-- Land Use Distribution - Enhanced -->
+      <div class="col-lg-6">
+        <div class="chart-card">
+          <div class="chart-header mb-3">
+            <h5 class="chart-title">
+              <i class="bi bi-pie-chart"></i> Land Use Distribution
+            </h5>
+            <p class="chart-description text-muted small">
+              Distribution by installation type with environmental impact
+            </p>
+          </div>
+          <div class="chart-container position-relative" style="height: 380px;">
+            <div id="loading-landuse" class="loading-overlay">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+            <div id="landuse-chart"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sustainability Impact Matrix -->
+      <div class="col-lg-6">
+        <div class="chart-card">
+          <div class="chart-header mb-3">
+            <h5 class="chart-title">
+              <i class="bi bi-grid"></i> Sustainability Impact Matrix
+            </h5>
+            <p class="chart-description text-muted small">
+              Land efficiency vs carbon offset potential by region
+            </p>
+          </div>
+          <div class="chart-container position-relative" style="height: 380px;">
+            <div id="loading-sustainability" class="loading-overlay">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+            <div id="sustainability-matrix"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project Size Optimization -->
+      <div class="col-lg-6">
+        <div class="chart-card">
+          <div class="chart-header mb-3">
+            <h5 class="chart-title">
+              <i class="bi bi-bar-chart"></i> Project Size Optimization
+              <button type="button" class="btn btn-link p-0 ms-2" data-bs-toggle="modal" data-bs-target="#projectSizeModal" style="font-size: 0.8rem;">
+                <i class="bi bi-info-circle text-info"></i>
+              </button>
+            </h5>
+            <p class="chart-description text-muted small">
+              Efficiency analysis across different project scales
+            </p>
+          </div>
+          <div class="chart-container position-relative" style="height: 520px;">
+            <div id="loading-size" class="loading-overlay">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+            <div id="size-optimization-chart"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Urban vs Rural Efficiency -->
+      <div class="col-lg-6">
+        <div class="chart-card">
+          <div class="chart-header mb-3">
+            <h5 class="chart-title">
+              <i class="bi bi-buildings"></i> Urban vs Rural Performance
+            </h5>
+            <p class="chart-description text-muted small">
+              Comparative analysis of installation performance by setting
+            </p>
+          </div>
+          <div class="chart-container position-relative" style="height: 520px;">
+            <div id="loading-urban" class="loading-overlay">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+            <div id="urban-rural-efficiency"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- Project Size Information Modal -->
+  <div class="modal fade" id="projectSizeModal" tabindex="-1" aria-labelledby="projectSizeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="projectSizeModalLabel">
+            <i class="bi bi-info-circle text-info"></i> Project Size Categories
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted mb-4">Solar installations are categorized by land area to help analyze efficiency patterns and environmental impact across different scales of deployment.</p>
+          
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="size-definition p-3 border rounded">
+                <h6 class="size-label text-primary d-flex align-items-center">
+                  <i class="bi bi-house me-2"></i> Small Projects
+                </h6>
+                <p class="size-range fw-bold text-primary mb-2">&lt; 1 acre</p>
+                <p class="size-description mb-0">Typically residential rooftop installations and small commercial systems. These projects maximize urban space utilization and provide distributed energy generation.</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="size-definition p-3 border rounded">
+                <h6 class="size-label text-success d-flex align-items-center">
+                  <i class="bi bi-building me-2"></i> Medium Projects
+                </h6>
+                <p class="size-range fw-bold text-success mb-2">1 - 5 acres</p>
+                <p class="size-description mb-0">Commercial and small utility-scale ground-mount installations. Ideal for business complexes, schools, and community solar projects.</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="size-definition p-3 border rounded">
+                <h6 class="size-label text-info d-flex align-items-center">
+                  <i class="bi bi-grid-3x3 me-2"></i> Large Projects
+                </h6>
+                <p class="size-range fw-bold text-info mb-2">5 - 10 acres</p>
+                <p class="size-description mb-0">Medium utility-scale solar farms and large commercial complexes. Balance between significant energy production and manageable land use.</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="size-definition p-3 border rounded">
+                <h6 class="size-label text-warning d-flex align-items-center">
+                  <i class="bi bi-lightning me-2"></i> X-Large Projects
+                </h6>
+                <p class="size-range fw-bold text-warning mb-2">10+ acres</p>
+                <p class="size-description mb-0">Large utility-scale solar installations and solar parks. Major renewable energy contributors with significant land footprint considerations.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-4 p-3 bg-light rounded">
+            <h6 class="text-muted">
+              <i class="bi bi-lightbulb me-2"></i> Analysis Insight
+            </h6>
+            <p class="text-muted mb-0 small">Different project sizes have unique efficiency characteristics, environmental impacts, and economic considerations. Use the size filter to explore how scale affects sustainability metrics and land use patterns.</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Tooltip container -->
+  <div id="tooltip" class="tooltip" style="display: none; position: absolute; background: rgba(255, 255, 255, 0.95); border: 1px solid #ddd; border-radius: 4px; padding: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); pointer-events: none; z-index: 1000;">
+    <div class="tooltip-content"></div>
+  </div>
+
+  <!-- Floating AI Chatbot -->
+  <div class="chatbot-container minimized" id="chatbot">
+    <div class="chatbot-header">
+      <div class="chatbot-title">
+        <i class="bi bi-robot"></i>
+        <span>AI Assistant</span>
+      </div>
+      <div class="chatbot-actions">
+        <button class="btn btn-link p-0 minimize-chat" title="Minimize">
+          <i class="bi bi-dash-lg"></i>
+        </button>
+        <button class="btn btn-link p-0 ms-2 close-chat" title="Close">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+    </div>
+    <div class="chatbot-body">
+      <div class="chat-messages" id="chatMessages">
+        <div class="message system">
+          <div class="message-content">
+            Hello! I'm your AI assistant for land use analysis. I can help you understand the sustainability patterns, environmental impact, and optimization opportunities in the solar installation data. Ask me about the visualizations or trends you see!
+          </div>
+        </div>
+      </div>
+      <div class="chat-input">
+        <textarea 
+          id="chatInput" 
+          placeholder="Ask about land use patterns, sustainability metrics..."
+          rows="1"
+        ></textarea>
+        <button class="btn btn-send" id="sendMessage">
+          <i class="bi bi-send-fill"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <button class="chatbot-toggle" id="toggleChat">
+    <i class="bi bi-chat-dots-fill"></i>
+    <span class="badge" id="unreadCount" style="display: none;">1</span>
+  </button>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="common.js"></script>
+    <script src="land-use.js"></script>
+    <script src="chatbot.js"></script>
+  <script>
+    // Initialize data loading when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM loaded, starting data load...');
+      loadData().catch(error => {
+        console.error('Error during data load:', error);
+      });
+    });
+
+    let filtersSetup = false;
+    
+    function setupLandUseFilters() {
+      if (filtersSetup) {
+        console.log('Filters already set up, skipping');
+        return;
+      }
+      
+      console.log('Setting up land use filters and triggering initial visualization');
+      filtersSetup = true;
+      
+      // Add filter event listeners
+      document.getElementById('countyFilter').addEventListener('change', handleFilterChange);
+      document.getElementById('installationTypeFilter').addEventListener('change', handleFilterChange);
+      document.getElementById('sizeFilter').addEventListener('change', handleFilterChange);
+      
+      // Trigger initial visualization
+      handleFilterChange();
+    }
+
+    function handleFilterChange() {
+      const county = document.getElementById('countyFilter').value;
+      const installType = document.getElementById('installationTypeFilter').value;
+      const sizeCategory = document.getElementById('sizeFilter').value;
+      
+      console.log('Filters changed:', { county, installType, sizeCategory });
+      
+      // This will be called by land-use.js
+      if (typeof updateLandUseWithFilters === 'function') {
+        updateLandUseWithFilters(county, installType, sizeCategory);
+      } else {
+        console.error('updateLandUseWithFilters function not found');
+      }
+    }
+  </script>
+</body>
+</html>
