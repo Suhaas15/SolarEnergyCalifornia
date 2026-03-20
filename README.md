@@ -3,7 +3,7 @@
 
 A playful, powerful, and exploratory web app that turns 200k+ California solar installation records into an interactive story — complete with maps, time‑lapse animation, infrastructure overlays, and a friendly AI chatbot that answers questions like a domain expert.  
 
-**Try the live demo:** https://solar-footprints.netlify.app/
+**Try the live demo:** [https://solar-footprints.netlify.app/](https://solarfootprints.netlify.app/)
 
 ---
 
